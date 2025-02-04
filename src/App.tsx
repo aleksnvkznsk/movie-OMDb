@@ -1,11 +1,19 @@
-import MovieSearch from './MovieSearch';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from './components/header/Header';
+import Home from './home/Home';
+import Movie from './movie/Movie';
+import Featured from './featured/Featured';
 
 function App() {
-  const apiKey = 'daadfd56';
   return (
-    <>
-      <MovieSearch apiKey={apiKey} />
-    </>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/movie" element={<Movie />} />
+        <Route path="/featured" element={<Featured />} />
+      </Routes>
+    </Router>
   )
 }
 
