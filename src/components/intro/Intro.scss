@@ -1,0 +1,39 @@
+.intro {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1000px;
+
+        &__title {
+            font-size: 6em;
+            color: white;
+            margin: 0;
+            font-weight: bold;
+            margin: 20px;
+        }
+
+        &__button {
+            margin: 20px;
+            padding: 20px 50px;
+            background-color: #ffffff;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 2em;
+            transition: background-color 1s;
+
+            &:hover {
+                background-color: #6a00ff;
+            }
+        }
+    }
+}
