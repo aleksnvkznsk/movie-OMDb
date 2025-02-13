@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MovieSearch.scss';
 
 interface Movie {
@@ -10,10 +10,11 @@ interface Movie {
 
 interface MovieSearchProps {
     apiKey: string;
+    defaultSearchQuery?: string;
 }
 
-const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey }) => {
-    const [searchQuery, setSearchQuery] = useState('');
+const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey, defaultSearchQuery = 'movie' }) => {
+    const [searchQuery, setSearchQuery] = useState(defaultSearchQuery);
     const [movies, setMovies] = useState<Movie[]>([]);
     const [error, setError] = useState<string | null>(null);
 
@@ -49,6 +50,11 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey }) => {
         }
 
     };
+
+    useEffect(() => {
+        searchMovies();
+    }, [apiKey, defaultSearchQuery]); 
+
 
     return (
         <div className="movie">
