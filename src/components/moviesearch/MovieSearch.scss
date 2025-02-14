@@ -68,13 +68,12 @@ $padding-medium: 20px;
             }
 
             &:focus {
-                border: 3px solid lighten($primary-color, 40%);
+                border: 3px solid $primary-color;
                 color: $primary-color;
                 outline: none;
             }
 
             &:active {
-                background-color: darken($primary-color, 15%);
                 color: $white-color;
             }
         }
@@ -104,7 +103,7 @@ $padding-medium: 20px;
             }
 
             &:disabled {
-                color: lighten($text-color, 40%);
+                color: $text-color;
                 cursor: not-allowed;
             }
         }
@@ -135,7 +134,7 @@ $padding-medium: 20px;
 
             &__img {
                 max-width: 100%;
-                border-radius: $border-radius / 2;
+                border-radius: $border-radius;
                 height: auto;
             }
 
@@ -149,7 +148,6 @@ $padding-medium: 20px;
             &__year {
                 font-size: 0.8em;
                 font-weight: 400;
-                color: lighten($text-color, 30%);
             }
         }
     }

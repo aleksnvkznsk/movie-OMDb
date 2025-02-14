@@ -10,19 +10,16 @@ interface Movie {
 
 interface MovieSearchProps {
     apiKey: string;
-    defaultSearchQuery?: string;
 }
 
-const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey, defaultSearchQuery = 'movie' }) => {
-    const [searchQuery, setSearchQuery] = useState(defaultSearchQuery);
+const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey }) => {
+    const [searchQuery, setSearchQuery] = useState('');
     const [movies, setMovies] = useState<Movie[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [sortBy, setSortBy] = useState <'year' | 'title' | null>(null);
+    const [sortBy, setSortBy] = useState<'year' | 'title' | null>(null);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => { setSearchQuery(event.target.value); };
 
     const searchMovies = async () => {
-        setError(null);
         if (!searchQuery) {
             setMovies([]);
             return;
@@ -43,7 +40,6 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey, defaultSearchQuery = 
             if (data.Response === 'True') {
                 setMovies(data.Search || []);
             } else {
-                setError(data.Error || 'Фильм не найден');
                 setMovies([]);
                 console.log("Фильм не найден");
             }
@@ -51,10 +47,6 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey, defaultSearchQuery = 
         }
 
     };
-
-    useEffect(() => {
-        searchMovies();
-    }, [apiKey, defaultSearchQuery]);
 
     const sortMovies = (moviesToSort: Movie[]): Movie[] => {
         if (!sortBy) {
@@ -76,7 +68,6 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey, defaultSearchQuery = 
         });
     };
 
-
     useEffect(() => {
         setMovies(prevMovies => sortMovies(prevMovies));
     }, [sortBy, movies]);
@@ -88,7 +79,6 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey, defaultSearchQuery = 
     const handleSortByTitle = () => {
         setSortBy('title');
     };
-
 
     return (
         <div className="movie">
@@ -104,28 +94,22 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey, defaultSearchQuery = 
             </div>
 
             <div className="movie__container__sort">
-                <button className="movie__container__sort__button" onClick={handleSortByYear} disabled={sortBy === 'year'}>
-                    Сортировать по году
-                </button>
-                <button className="movie__container__sort__button" onClick={handleSortByTitle} disabled={sortBy === 'title'}>
-                    Сортировать по названию
-                </button>
+                <button className="movie__container__sort__button" onClick={handleSortByYear} disabled={sortBy === 'year'}>Сортировать по году</button>
+                <button className="movie__container__sort__button" onClick={handleSortByTitle} disabled={sortBy === 'title'}>Сортировать по названию</button>
             </div>
 
             <div className="movie__container__body">
-                {!error && movies.length > 0 && (
-                    <div className="movie__container__body__movie__list">
-                        {movies.map((movie) => (
-                            <div key={movie.imdbID} className="movie__container__body__movie__item">
-                                <img className="movie__container__body__movie__img" src={movie.Poster !== 'N/A' ? movie.Poster : '/placeholder.png'} alt={movie.Title} />
-                                <div className="movie__container__body__movie__details">
-                                    <h3 className="movie__container__body__movie__title">{movie.Title}</h3>
-                                    <p className="movie__container__body__movie__year">Дата выхода: {movie.Year} год</p>
-                                </div>
+                <div className="movie__container__body__movie__list">
+                    {movies.map((movie) => (
+                        <div key={movie.imdbID} className="movie__container__body__movie__item">
+                            <img className="movie__container__body__movie__img" src={movie.Poster !== 'N/A' ? movie.Poster : '/placeholder.png'} alt={movie.Title} />
+                            <div className="movie__container__body__movie__details">
+                                <h3 className="movie__container__body__movie__title">{movie.Title}</h3>
+                                <p className="movie__container__body__movie__year">Дата выхода: {movie.Year} год</p>
                             </div>
-                        ))}
-                    </div>
-                )}
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
