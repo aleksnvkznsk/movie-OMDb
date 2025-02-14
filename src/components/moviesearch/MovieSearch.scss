@@ -4,7 +4,7 @@
 
     &__container {
         &__header {
-            max-width: 1000px;
+            max-width: 100%;
             display: flex;
             margin: 0 auto;
             border-radius: 50px;
@@ -40,6 +40,7 @@
                     background-color: #0041a0;
                     color: #ffffff;
                     transition: 0.3s;
+                    cursor: pointer;
                 }
 
                 &:disabled {
@@ -59,6 +60,43 @@
 
             }
         }
+
+
+
+        &__sort {
+            max-width: 100%;
+            display: flex;
+            margin: 0 auto;
+
+            &__button {
+                font-size: 14px;
+                font-weight: 400;
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: white;
+                margin: 10px;
+                padding: 10px;
+                text-decoration: none;
+                border: none;
+
+                &:hover {
+                    color: #0041a0;
+                    transition: 0.3s;
+                    cursor: pointer;
+                }
+
+                &:disabled {
+                    color: #848484;
+                }
+            }
+        }
+
+
+
+
+
+
+
+
 
         &__body {
             margin: 50px;
@@ -102,22 +140,6 @@
             }
         }
 
-        &__sort {
-            width: 100%;
-
-            &__button {
-                font-size: 14px;
-                background-color: white;
-                margin: 10px;
-                padding: 10px;
-                text-decoration: none;
-                border: none;
-                border-radius: 10px;
-
-                &:hover {
-                    background-color: rgb(220, 220, 220);
-                }
-            }
-        }
+        
     }
 }
