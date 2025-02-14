@@ -79,5 +79,23 @@
                 }
             }
         }
+
+        &__sort{
+            width: 100%;
+
+            &__button{
+                font-size: 14px;
+                background-color: white;
+                margin: 10px;
+                padding: 10px;
+                text-decoration: none;
+                border: none;
+                border-radius: 10px;
+
+                &:hover{
+                    background-color: rgb(220, 220, 220);
+                }
+            }
+        }
     }
 }

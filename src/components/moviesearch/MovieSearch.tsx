@@ -17,6 +17,7 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey, defaultSearchQuery = 
     const [searchQuery, setSearchQuery] = useState(defaultSearchQuery);
     const [movies, setMovies] = useState<Movie[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [sortBy, setSortBy] = useState <'year' | 'title' | null>(null);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => { setSearchQuery(event.target.value); };
 
@@ -53,12 +54,44 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey, defaultSearchQuery = 
 
     useEffect(() => {
         searchMovies();
-    }, [apiKey, defaultSearchQuery]); 
+    }, [apiKey, defaultSearchQuery]);
+
+    const sortMovies = (moviesToSort: Movie[]): Movie[] => {
+        if (!sortBy) {
+            return moviesToSort;
+        }
+
+        return [...moviesToSort].sort((a, b) => {
+            if (sortBy === 'year') {
+                const yearA = parseInt(a.Year, 10);
+                const yearB = parseInt(b.Year, 10);
+                if (yearA < yearB) return -1;
+                if (yearA > yearB) return 1;
+            } else if (sortBy === 'title') {
+                if (a.Title < b.Title) return -1;
+                if (a.Title > b.Title) return 1;
+            }
+
+            return 0;
+        });
+    };
+
+
+    useEffect(() => {
+        setMovies(prevMovies => sortMovies(prevMovies));
+    }, [sortBy, movies]);
+
+    const handleSortByYear = () => {
+        setSortBy('year');
+    };
+
+    const handleSortByTitle = () => {
+        setSortBy('title');
+    };
 
 
     return (
         <div className="movie">
-
             <div className="movie__container__header">
                 <input
                     className="movie__container__header__input"
@@ -68,6 +101,15 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey, defaultSearchQuery = 
                     onChange={handleInputChange}
                 />
                 <button className="movie__container__header__button" onClick={searchMovies} >Найти</button>
+            </div>
+
+            <div className="movie__container__sort">
+                <button className="movie__container__sort__button" onClick={handleSortByYear} disabled={sortBy === 'year'}>
+                    Сортировать по году
+                </button>
+                <button className="movie__container__sort__button" onClick={handleSortByTitle} disabled={sortBy === 'title'}>
+                    Сортировать по названию
+                </button>
             </div>
 
             <div className="movie__container__body">
@@ -85,7 +127,6 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey, defaultSearchQuery = 
                     </div>
                 )}
             </div>
-
         </div>
     );
 };
