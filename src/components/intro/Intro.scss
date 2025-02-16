@@ -4,35 +4,82 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(160deg, #ffffff, #0041a0 80%);
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.1);
+        z-index: 0;
+    }
 
     &__content {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         max-width: 1000px;
+        text-align: center;
+        width: 90%;
+        z-index: 10;
 
         &__title {
-            font-size: 6em;
-            color: white;
-            margin: 0;
-            font-weight: bold;
-            margin: 20px;
+            font-size: 48px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+
+        &__description {
+            font-size: 20px;
+            color: #ffffff;
+            margin-bottom: 30px;
         }
 
         &__button {
-            margin: 20px;
-            padding: 20px 50px;
             background-color: #ffffff;
-            color: white;
+            color: #0041a0;
             border: none;
-            border-radius: 50px;
+            border-radius: 25px;
+            padding: 14px 30px;
             cursor: pointer;
             text-decoration: none;
-            font-size: 2em;
-            transition: background-color 1s;
+            transition: background-color 1.5s;
+            font-size: 24px;
+            font-weight: 400;
 
             &:hover {
-                background-color: #6a00ff;
+                background-color: #0041a0;
+                color: #ffffff;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        &__content {
+            &__title {
+                font-size: 38px;
+            }
+
+            &__button {
+                font-size: 20px;
+                padding: 10px 20px;
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        &__content {
+            &__title {
+                font-size: 30px;
+            }
+
+            &__button {
+                font-size: 16px;
             }
         }
     }
