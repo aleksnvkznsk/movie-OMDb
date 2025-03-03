@@ -16,6 +16,8 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [movies, setMovies] = useState<Movie[]>([]);
     const [sortBy, setSortBy] = useState<'year' | 'title' | null>(null);
+    const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => { setSearchQuery(event.target.value); };
 
@@ -35,7 +37,6 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey }) => {
             }
 
             const data = await response.json();
-            console.log(data);
 
             if (data.Response === 'True') {
                 setMovies(data.Search || []);
@@ -44,6 +45,7 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey }) => {
                 console.log("Фильм не найден");
             }
         } catch (e) {
+            console.error("Ошибка при поиске фильмов:", e);
         }
 
     };
@@ -80,6 +82,16 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey }) => {
         setSortBy('title');
     };
 
+    const openModal = (movie: Movie) => {
+        setSelectedMovie(movie);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedMovie(null);
+    };
+
     return (
         <div className="movie">
             <div className="movie__container__header">
@@ -101,7 +113,7 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey }) => {
             <div className="movie__container__body">
                 <div className="movie__container__body__movie__list">
                     {movies.map((movie) => (
-                        <div key={movie.imdbID} className="movie__container__body__movie__item">
+                        <div key={movie.imdbID} className="movie__container__body__movie__item" onClick={() => openModal(movie)}>
                             <img className="movie__container__body__movie__img" src={movie.Poster !== 'N/A' ? movie.Poster : '/placeholder.png'} alt={movie.Title} />
                             <div className="movie__container__body__movie__details">
                                 <h3 className="movie__container__body__movie__title">{movie.Title}</h3>
@@ -111,6 +123,21 @@ const MovieSearch: React.FC<MovieSearchProps> = ({ apiKey }) => {
                     ))}
                 </div>
             </div>
+
+            {isModalOpen && (
+                <div className="modal">
+                    <div className="modal__content">
+                        <span className="modal__close" onClick={closeModal}>&times;</span>
+                        {selectedMovie && (
+                            <>
+                                <h2>{selectedMovie.Title}</h2>
+                                <img src={selectedMovie.Poster !== 'N/A' ? selectedMovie.Poster : '/placeholder.png'} alt={selectedMovie.Title} />
+                                <p>Дата выхода: {selectedMovie.Year}</p>
+                            </>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
